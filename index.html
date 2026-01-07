@@ -1,51 +1,27 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+
 <head>
-    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta charset="utf-8">
     <title>My Coq Proofs</title>
-    <link rel="stylesheet" href="https://x80.org/rhino-coq/jscoq/ui-css/jscoq.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial;
+        }
+
+        iframe {
+            width: 100%;
+            height: 90vh;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 
-<body class="jscoq-main">
-    <div id="ide-wrapper" class="toggled">
-        <div id="code-wrapper">
-            <div id="document">
-                <h1>My First Coq Proofs</h1>
-                <p>Click the arrows to step through the proofs.</p>
-                <textarea id="coq-code">
-From Coq Require Import Init.Prelude.
-
-Theorem hello_world : forall P : Prop, P -> P.
-Proof.
-  intros P H.
-  exact H.
-Qed.
-
-Theorem and_commutative : forall P Q : Prop, P /\ Q -> Q /\ P.
-Proof.
-  intros P Q [HP HQ].
-  split.
-  - exact HQ.
-  - exact HP.
-Qed.
-                </textarea>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://x80.org/rhino-coq/jscoq/ui-js/jscoq-loader.js"></script>
-    <script type="text/javascript">
-        var jscoq_ids = ['coq-code'];
-        var jscoq_opts = {
-            base_path: 'https://x80.org/rhino-coq/jscoq/',
-            init_pkgs: ['init'],
-            all_pkgs: ['coq'],
-            implicit_libs: true
-        };
-
-        loadJsCoq(jscoq_opts.base_path).then(function() {
-            new CoqManager(jscoq_ids, jscoq_opts);
-        });
-    </script>
+<body>
+    <h1>My Coq Proofs</h1>
+    <iframe src="https://jscoq.github.io/scratchpad.html"></iframe>
 </body>
+
 </html>
