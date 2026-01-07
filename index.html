@@ -1,142 +1,51 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <title>jsCoq – Use Rocq in Your Browser</title>
+<head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-    <meta name="description" content="An Online IDE for the Coq Theorem Prover" />
-    <!-- Move to copy with the bundle -->
-    <link rel="icon" href="frontend/classic/images/favicon.png">
-    <style>body { visibility: hidden; } /* FOUC avoidance */</style>
-    <link rel="stylesheet" type="text/css" href="./dist/frontend/index.css">
-    <link rel="stylesheet" type="text/css" href="./frontend/classic/css/landing-page.css">
-
-    <!-- These may be bundled as part of landing-page, but anyway should not be in the main bundle -->
-    <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  </head>
+    <title>My Coq Proofs</title>
+    <link rel="stylesheet" href="https://x80.org/rhino-coq/jscoq/ui-css/jscoq.css">
+</head>
 
 <body class="jscoq-main">
-  <div id="ide-wrapper" class="toggled split">
-  <div id="code-wrapper">
-  <div id="document-wrapper">
-    <!------------------------------->
-    <!--   N A V   B A R           -->
-    <!------------------------------->
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand"><img src="frontend/classic/images/favicon.png"></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" id="navbarAbout" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                About
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#team">jsCoq Dev Team</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="https://coq.inria.fr">Coq Proof Assistant</a></li>
-                <li><a class="dropdown-item" href="https://github.com/cpitclaudel/company-coq">company-coq</a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" id="navbarExamples" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Examples
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="examples/inf-primes.html">Infinitude of Primes</a></li>
-                <li><a class="dropdown-item" href="examples/sqrt_2.html">Irrationality of <span class="math"><img class="symbol-sqrt" src="frontend/classic/images/sqrt.svg">2</span></a></li>
-                <!-- these are only available from the full website -->
-                <li><a class="dropdown-item" href="/fun/coqoban.html">🎡 Çoqoban</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/ext/sf"><img class="symbol-book" src="frontend/classic/images/book.svg">Software Foundations</a></li>
-              </ul>
-            </li>
-          </ul>
+    <div id="ide-wrapper" class="toggled">
+        <div id="code-wrapper">
+            <div id="document">
+                <h1>My First Coq Proofs</h1>
+                <p>Click the arrows to step through the proofs.</p>
+                <textarea id="coq-code">
+From Coq Require Import Init.Prelude.
+
+Theorem hello_world : forall P : Prop, P -> P.
+Proof.
+  intros P H.
+  exact H.
+Qed.
+
+Theorem and_commutative : forall P Q : Prop, P /\ Q -> Q /\ P.
+Proof.
+  intros P Q [HP HQ].
+  split.
+  - exact HQ.
+  - exact HP.
+Qed.
+                </textarea>
+            </div>
         </div>
-      </div>
-      <a id="scratchpad" href="examples/scratchpad.html" title="Open scratchpad">
-        <span class="newcomer scratchpad-tip">open the scratchpad<br/>to start editing</span>
-      </a>
-    </nav>
-    <!------------------------------->
+    </div>
 
-  <div id="document">
-  <div>
-    <h3>Welcome to the <span class="jscoq-name">jsCoq</span> Interactive Online System!</h3>
-    <textarea id="coqCode" class="snippet">
-### Welcome to JsCoq
+    <script src="https://x80.org/rhino-coq/jscoq/ui-js/jscoq-loader.js"></script>
+    <script type="text/javascript">
+        var jscoq_ids = ['coq-code'];
+        var jscoq_opts = {
+            base_path: 'https://x80.org/rhino-coq/jscoq/',
+            init_pkgs: ['init'],
+            all_pkgs: ['coq'],
+            implicit_libs: true
+        };
 
-- You can edit this document as you please
-- Rocq will recognize the code snippets as Rocq
-- You will be able to save the document and link to other documents soon
-
-```rocq
-From Coq Require Import List.
-Import ListNotations.
-```
-
-```rocq
-Lemma rev_snoc_cons A :
-  forall (x : A) (l : list A), rev (l ++ [x]) = x :: rev l.
-Proof.
-  induction l.
-  - reflexivity.
-  - simpl. rewrite IHl. simpl. reflexivity.
-Qed.
-```
-
-Try to update _above_ and **below**:
-```rocq
-Theorem rev_rev A : forall (l : list A), rev (rev l) = l.
-Proof.
-  induction l.
-  - reflexivity.
-  - simpl. rewrite rev_snoc_cons. rewrite IHl.
-    reflexivity.
-Qed.
-```
-
-Please edit your code here!
-
-    </textarea>
-  </div> <!-- /#subdiv -->
-  <div id="editors"></div>
-  </div> <!-- /#document -->
-  </div> <!-- /#document-wrapper -->
-  </div> <!-- /#code-wrapper -->
-  </div> <!-- /#ide-wrapper -->
-
-  <script type="module">
-    import { JsCoq } from './jscoq.js';
-
-    var sp = new URLSearchParams(location.search),
-        ifHas = x => sp.has(x) ? x : undefined;
-
-    if (!localStorage['scratchpad.last_filename'])
-        setTimeout(() => document.body.classList.add('welcome'), 1500);
-
-    document.querySelector('#scratchpad').href += location.search;
-
-    var jscoq_ids  = ['coqCode'];
-    var jscoq_opts = {
-        backend:   sp.get('backend') ?? ifHas('wa'),
-        frontend:  sp.get('frontend'),
-        languageId: sp.get('languageId'),
-        implicit_libs: false,
-        focus: false,
-        debug: true,
-        editor: { mode: { 'company-coq': false } },
-        init_pkgs: ['init', 'coq-base', 'coq-collections', 'coq-arith'],
-        all_pkgs: ['coq']
-    };
-
-    JsCoq.start(jscoq_ids, jscoq_opts).then(res => {
-        /* Global reference */
-        window.coq = res;
-    });
-  </script>
+        loadJsCoq(jscoq_opts.base_path).then(function() {
+            new CoqManager(jscoq_ids, jscoq_opts);
+        });
+    </script>
 </body>
 </html>
