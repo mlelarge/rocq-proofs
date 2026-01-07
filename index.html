@@ -551,6 +551,9 @@ Qed.
 
 **Example:**
 \`\`\`coq
+Require Import List. (* Import standard library lists *)
+Import ListNotations. (* Import the [] and :: notations *)
+
 Theorem trans_eq : forall (X:Type) (n m o : X),
   n = m -> m = o -> n = o.
 Proof.
@@ -573,6 +576,9 @@ Qed.
 
 **Example:**
 \`\`\`coq
+Require Import List. (* Import standard library lists *)
+Import ListNotations. (* Import the [] and :: notations *)
+
 Example trans_eq_example : forall (a b c d e f : nat),
   [a;b] = [c;d] -> [c;d] = [e;f] -> [a;b] = [e;f].
 Proof.
@@ -588,6 +594,9 @@ Qed.
 
 **Examples:**
 \`\`\`coq
+Require Import List. (* Import standard library lists *)
+Import ListNotations. (* Import the [] and :: notations *)
+
 (* Simple case *)
 Theorem S_injective : forall (n m : nat), S n = S m -> n = m.
 Proof.
