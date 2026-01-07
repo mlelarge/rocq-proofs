@@ -82,34 +82,6 @@
       width: 100%;
     }
 
-    .quick-copy {
-      background-color: #e8f4f8;
-      border: 2px solid #3498db;
-      border-radius: 5px;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
-
-    .quick-copy h2 {
-      margin-top: 0;
-      color: #2980b9;
-      font-size: 16px;
-    }
-
-    .copy-button {
-      background-color: #3498db;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 3px;
-      cursor: pointer;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-
-    .copy-button:hover {
-      background-color: #2980b9;
-    }
 
     .cheatsheet-panel h1 {
       color: #2c3e50;
@@ -398,6 +370,8 @@ Qed.
 
 **Example:**
 \`\`\`coq
+Require Import Arith. (* in order to use ring *)
+
 Theorem replace_example : forall n : nat,
   n + n = n * 2.
 Proof.
@@ -531,6 +505,9 @@ Definition mynil := @nil nat.
 
 **Examples:**
 \`\`\`coq
+Require Import List. (* Import standard library lists *)
+Import ListNotations. (* Import the [] and :: notations *)
+
 (* Direct application *)
 Theorem silly1 : forall (n m : nat), n = m -> n = m.
 Proof.
@@ -797,18 +774,11 @@ Qed.
 \`\`\`
 `;
 
-    const quickCopyHTML = `
-      <div class="quick-copy">
-        <h2>📋 Quick Copy - Standard Imports</h2>
-        <pre><code>${importCode}</code></pre>
-        <button class="copy-button" onclick="copyImports()">Copy to Clipboard</button>
-      </div>
-    `;
 
     marked.setOptions({ headerIds: true, mangle: false });
 
     const cheatsheet = document.getElementById('cheatsheet');
-    cheatsheet.innerHTML = quickCopyHTML + marked.parse(markdownContent);
+    cheatsheet.innerHTML = marked.parse(markdownContent);
 
     // Normalize IDs: convert headings to clean IDs
     function normalizeId(text) {
@@ -846,18 +816,6 @@ Qed.
       target.classList.add('flash');
     });
 
-    function copyImports() {
-      navigator.clipboard.writeText(importCode).then(function () {
-        const btn = document.querySelector('.copy-button');
-        const originalText = btn.textContent;
-        btn.textContent = '✓ Copied!';
-        btn.style.backgroundColor = '#27ae60';
-        setTimeout(() => {
-          btn.textContent = originalText;
-          btn.style.backgroundColor = '';
-        }, 2000);
-      });
-    }
 
     // Resizer functionality
     const resizer = document.getElementById('resizer');
